@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import eventsJson from '../data/events.json';
 import Event from './Event';
 import { Alert, Row } from 'react-bootstrap';
+import { getallEvents } from '../services/api';
 function Events() {
 
 
@@ -11,8 +12,29 @@ function Events() {
 
     const [welcome, setWelcome] = useState(false)
 
+    const [eventsResult , setEventsResult] =useState([])
+
+   
 
     useEffect(()=>{
+
+      const fetchEvents = async ()=>{
+    
+
+        const listEvents = await getallEvents()
+  
+        setEventsResult(listEvents.data)
+        console.log(eventsResult)
+  
+      };
+
+      fetchEvents();
+
+    },[])
+    useEffect(()=>{
+      
+     
+   
 
         setWelcome(true)
 
@@ -20,7 +42,6 @@ function Events() {
         setTimeout(()=>{
             setWelcome(false)
         } , 3000)
-
     },[])
 
 
@@ -49,11 +70,11 @@ function Events() {
 
 
 <Row>
-    {eventsJson.map((itemEvent, index) => (
+    {eventsResult.map((itemEvent, index) => (
     
    <Event item={itemEvent} key={index} show={showAlert}/>
 
-    ))}
+    ))}  
     </Row>
     
     {message && <Alert variant="success">

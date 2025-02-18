@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Alert, Button, Card } from 'react-bootstrap'
+import { NavLink } from 'react-router-dom'
 
 function Event({item , show}) {
 
@@ -32,7 +33,11 @@ function Event({item , show}) {
     <Card style={{ width: '18rem' }}>
     <Card.Img variant="top" src= {event.nbTickets >0?`/images/${event.img}`:'/images/sold_out.png'} />
     <Card.Body>
+
+      <NavLink to={`/events/${event.id}`}>
       <Card.Title>{event.name}</Card.Title>
+
+      </NavLink>
       <Card.Text>
        Price :{event.price}
       </Card.Text>
