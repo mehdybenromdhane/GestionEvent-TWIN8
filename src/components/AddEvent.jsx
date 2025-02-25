@@ -1,56 +1,87 @@
-import React from 'react'
-import { Container } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import { useForm } from 'react-hook-form';
+import { Button, Container, Form } from 'react-bootstrap'
+import { useForm } from 'react-hook-form'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { addEvent } from '../services/api'
+import {eventSchema} from "../services/EventSchema"
+import { zodResolver } from '@hookform/resolvers/zod'
+ 
 function AddEvent() {
 
-    const {register , handleSubmit} =useForm()
+
+    const navigate = useNavigate()
+
+    const {register ,handleSubmit ,formState: { errors } } = useForm({
+      resolver: zodResolver(eventSchema),
+    });
+   
 
 
-    const submit = (data)=>{
 
-        console.log(data)
-        
+
+
+    const submit = async (data) => {
+
+    const   {name, description, price, nbTickets , img}= data
+
+    const result  = await addEvent({
+      name:name,
+      description:description,
+      price:price,
+      img:img[0].name,
+      nbTickets:nbTickets,
+      nbParticipants: 0,
+      like: false
+    })
+
+
+    if (result.status == 201){
+
+        navigate('/events')
     }
-  
+
+
+
+    
+  };
+
+    
   return (
 
-    <Container>
+    <Container className='mt-5'>
+
         <h1>Add Event</h1>
     <Form onSubmit={handleSubmit(submit)}>
-    <Form.Group className="mb-3" controlId="formBasicEmail">
-      <Form.Label>Name</Form.Label>
-      <Form.Control type="text" placeholder="Enter name" {...register('name')} />
-      
-    </Form.Group>
+      <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form.Label>Name </Form.Label>
+        <Form.Control type="text" placeholder="Enter name" {...register('name')}/>
+        {errors.name && <p>{errors.name.message}</p>}
 
-    <Form.Group className="mb-3" controlId="formBasicEmail">
-      <Form.Label>description</Form.Label>
-      <Form.Control type="text" placeholder="Enter description" />
-      
-    </Form.Group>
-    <Form.Group className="mb-3" controlId="formBasicEmail">
-      <Form.Label>Image</Form.Label>
-      <Form.Control type="file"/>
-      
-    </Form.Group>
-
-    <Form.Group className="mb-3" controlId="formBasicEmail">
-      <Form.Label>Price</Form.Label>
-      <Form.Control type="number" placeholder="Enter price" />
-      
-    </Form.Group>
-    <Form.Group className="mb-3" controlId="formBasicEmail">
-      <Form.Label>Number of tickets</Form.Label>
-      <Form.Control type="number" placeholder="Enter number of tickets" />
-      
-    </Form.Group>
-    <Button variant="primary" type="submit">
-      Submit
-    </Button>
-  </Form>
-  </Container>
+      </Form.Group>
+      <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form.Label>Description </Form.Label>
+        <Form.Control type="text" placeholder="Enter description" {...register('description')} />
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form.Label>Image </Form.Label>
+        <Form.Control type="file" placeholder="Enter image" {...register('img')} />
+       
+      </Form.Group>
+      </Form.Group>
+      <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form.Label>Number of tickets </Form.Label>
+        <Form.Control type="number" placeholder="Enter number of tickets" {...register('nbTickets')} />
+       
+      </Form.Group>
+      <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form.Label>price </Form.Label>
+        <Form.Control type="number" placeholder="Enter number" {...register('price')}  />
+       
+      </Form.Group>
+      <Button variant="primary" type="submit">
+        Submit
+      </Button>
+    </Form>
+    </Container>
   )
 }
 

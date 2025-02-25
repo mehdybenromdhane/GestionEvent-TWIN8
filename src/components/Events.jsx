@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import eventsJson from '../data/events.json';
 import Event from './Event';
 import { Alert, Row } from 'react-bootstrap';
-import { getallEvents } from '../services/api';
+import { deleteEvent, getallEvents } from '../services/api';
 function Events() {
 
 
@@ -45,7 +45,14 @@ function Events() {
     },[])
 
 
-    
+
+    const deleteE  = async(id)=>{
+
+      await deleteEvent(id)
+      setEventsResult(()=>eventsResult.filter((event)=>event.id !== id))
+
+      
+    }   
 
 
     const showAlert = ()=>{
@@ -72,7 +79,7 @@ function Events() {
 <Row>
     {eventsResult.map((itemEvent, index) => (
     
-   <Event item={itemEvent} key={index} show={showAlert}/>
+   <Event  deleteE={deleteE}item={itemEvent} key={index} show={showAlert}/>
 
     ))}  
     </Row>

@@ -6,6 +6,7 @@ import Welcome from './components/Welcome'
 import EventDetails from './components/EventDetails'
 import React from 'react'
 import AddEvent from './components/AddEvent'
+import UpdateEvent from './components/UpdateEvent'
 
 function App() {
   const Events = React.lazy(()=>import('./components/Events'))
@@ -21,6 +22,7 @@ function App() {
           <Route index element={<Events/>}/>
           <Route path=':id' element={<EventDetails/>}/>
           <Route path='/events/add' element={<AddEvent/>}/>
+          <Route path='/events/update/:id' element={<UpdateEvent/>}/>
 
       </Route>
 

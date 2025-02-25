@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Alert, Button, Card } from 'react-bootstrap'
 import { NavLink } from 'react-router-dom'
 
-function Event({item , show}) {
+function Event({item , show ,deleteE}) {
 
     const [event,setEvent] = useState(item)
 
@@ -49,6 +49,9 @@ function Event({item , show}) {
       </Card.Text>
       <Button variant="primary" disabled={!event.nbTickets} onClick={bookEvent}>Book an event</Button>
       <Button variant="warning" onClick={changeLike}  >{event.like ? 'Dislike' : 'Like'}</Button>
+      <Button variant="danger" onClick={()=>deleteE(event.id)}  >delete</Button>
+      <Button variant="info" as={NavLink} to={`/events/update/${event.id}`}>update</Button>
+
 
     </Card.Body>
   </Card>
