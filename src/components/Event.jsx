@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Alert, Button, Card } from 'react-bootstrap'
 import { NavLink } from 'react-router-dom'
+import useFavoriteStore from '../ZustandStores/useFavoriteStore'
 
 function Event({item , show ,deleteE}) {
 
@@ -8,6 +9,10 @@ function Event({item , show ,deleteE}) {
 
 
 
+    const { addFavoriteObject , favoriteEvents }=useFavoriteStore()
+
+ const isFavorite =   favoriteEvents.some((fav)=>fav.id == event.id )
+    console.log(isFavorite)
     const changeLike= ()=>{
 
         setEvent((prevEvent)=>({
@@ -51,6 +56,10 @@ function Event({item , show ,deleteE}) {
       <Button variant="warning" onClick={changeLike}  >{event.like ? 'Dislike' : 'Like'}</Button>
       <Button variant="danger" onClick={()=>deleteE(event.id)}  >delete</Button>
       <Button variant="info" as={NavLink} to={`/events/update/${event.id}`}>update</Button>
+      
+      
+      {!isFavorite?  <Button variant="secondary"  onClick={()=>addFavoriteObject(event)}>Add to favorite</Button>
+     :  <></>}
 
 
     </Card.Body>

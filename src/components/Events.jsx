@@ -5,28 +5,32 @@ import eventsJson from '../data/events.json';
 import Event from './Event';
 import { Alert, Row } from 'react-bootstrap';
 import { deleteEvent, getallEvents } from '../services/api';
+import useEventStore from '../ZustandStores/useEventStore';
+import Favorite from './Favorite';
 function Events() {
 
 
+ const  { events, deleteEventObject , fetchEvents }  = useEventStore()
+    
     const [message, setMessage] = useState(false)
 
     const [welcome, setWelcome] = useState(false)
 
-    const [eventsResult , setEventsResult] =useState([])
+    // const [eventsResult , setEventsResult] =useState([])
 
    
 
     useEffect(()=>{
 
-      const fetchEvents = async ()=>{
+      // const fetchEvents = async ()=>{
     
 
-        const listEvents = await getallEvents()
+      //   const listEvents = await getallEvents()
   
-        setEventsResult(listEvents.data)
-        console.log(eventsResult)
+      //   setEventsResult(listEvents.data)
+      //   console.log(eventsResult)
   
-      };
+      // };
 
       fetchEvents();
 
@@ -49,7 +53,7 @@ function Events() {
     const deleteE  = async(id)=>{
 
       await deleteEvent(id)
-      setEventsResult(()=>eventsResult.filter((event)=>event.id !== id))
+     deleteEventObject(id)
 
       
     }   
@@ -77,7 +81,7 @@ function Events() {
 
 
 <Row>
-    {eventsResult.map((itemEvent, index) => (
+    {events.map((itemEvent, index) => (
     
    <Event  deleteE={deleteE}item={itemEvent} key={index} show={showAlert}/>
 
@@ -88,6 +92,9 @@ function Events() {
       <Alert.Heading>Hey you book an event</Alert.Heading>
      
     </Alert>}
+
+
+    <Favorite/>
     </>
   )
 }

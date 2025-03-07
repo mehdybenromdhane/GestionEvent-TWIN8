@@ -3,29 +3,35 @@ import { useParams } from 'react-router-dom'
 import events from "../data/events.json";
 import { Card, Col, Container, Row } from 'react-bootstrap';
 import { getallEvents } from '../services/api';
+import useEventStore from '../ZustandStores/useEventStore';
 function EventDetails() {
 
-    const { id }=useParams()
+    const {id} =useParams()
 
 
-    const [event , setEvent]= useState({})
 
-     const fetchEventDetails= async()=>{
-
-        const eventDetails = await getallEvents(id)
-
-        setEvent(eventDetails.data)
+    const events =  useEventStore((state)=>state.events)
 
 
-    }
-useEffect(()=>{
+    const event = events.find((item)=>item.id == id)
+    // const [event , setEvent]= useState({})
+
+//      const fetchEventDetails= async()=>{
+
+//         const eventDetails = await getallEvents(id)
+
+//         setEvent(eventDetails.data)
+
+
+//     }
+// useEffect(()=>{
 
    
 
-    fetchEventDetails()
+//     fetchEventDetails()
 
 
-},[])
+// },[])
 
     console.log(event)
   return (

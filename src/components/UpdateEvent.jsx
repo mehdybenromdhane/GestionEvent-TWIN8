@@ -3,35 +3,38 @@ import { Button, Container, Form } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom'
 import { editEvent, getallEvents } from '../services/api';
+import useEventStore from '../ZustandStores/useEventStore';
 
 function UpdateEvent() {
 
     const {id}= useParams();
+    const {  events , updateEventObject } =  useEventStore();
+    const event = events.find((item)=>item.id == id)
 
    const navigate = useNavigate()
 
-    const [eventItem, setEventItem]= useState({
-        name:"",
-        description:"",
-        img:"",
-        price:0,
-        nbTickets:0,
-        nbParticipants:0,
-        like: false
-    })
+    // const [eventItem, setEventItem]= useState({
+    //     name:"",
+    //     description:"",
+    //     img:"",
+    //     price:0,
+    //     nbTickets:0,
+    //     nbParticipants:0,
+    //     like: false
+    // })
 
     const { register, handleSubmit, reset } = useForm({
-        defaultValues: eventItem,
+        defaultValues: event,
     });
     useEffect(() => {
-        const fetchEvent = async (id) => {
-            const event = await getallEvents(id);
-            console.log(event.data);
-            setEventItem(event.data);
-            reset(event.data);
-        };
+        // const fetchEvent = async (id) => {
+        //     const event = await getallEvents(id);
+        //     console.log(event.data);
+        //     setEventItem(event.data);
+        //     reset(event.data);
+        // };
     
-        fetchEvent(id);
+        // fetchEvent(id);
     }, [id, reset]); //
   
 
@@ -42,6 +45,7 @@ function UpdateEvent() {
         const   {name, description, price, nbTickets , img}= data
     
         const result  = await editEvent(id, {
+          id:id,
           name:name,
           description:description,
           price:price,
@@ -52,6 +56,8 @@ function UpdateEvent() {
         })
     
     
+
+        updateEventObject(result.data)
         if (result.status == 200){
     
             navigate('/events')
@@ -67,7 +73,7 @@ function UpdateEvent() {
  
     <Container className='mt-5'>
 
-        <h1>Update  Event with id {id}       {eventItem.name}
+        <h1>Update  Event with id {id}       {event.name}
          </h1>
     <Form onSubmit={handleSubmit(submit)}>
       <Form.Group className="mb-3" controlId="formBasicEmail">

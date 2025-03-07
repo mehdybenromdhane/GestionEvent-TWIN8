@@ -11,22 +11,13 @@
       "like": false
     },
     {
-      "name": "test",
-      "description": "Le lorem ipsum est, en imprimerie, une suite de mots sans signification utilisée à titre provisoire pour calibrer une mise en page",
-      "price": 15,
-      "img": "aa.png.webp",
-      "nbTickets": 4,
+      "id": "82ed",
+      "name": "React",
+      "description": "event aaa",
+      "price": 54545,
+      "nbTickets": 9,
       "nbParticipants": 0,
-      "like": false,
-      "id": "2"
-    },
-    {
-      "id": "cbec",
-      "name": "test",
-      "description": "test",
-      "price": "554",
-      "img": "aa.png.webp",
-      "nbTickets": "54"
+      "like": false
     }
   ]
 }
